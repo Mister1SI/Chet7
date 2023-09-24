@@ -1,7 +1,7 @@
 use iced::{Sandbox, Length, Alignment, Pixels};
 use iced::widget::{Container, Column, Row, TextInput, Button, Rule, Text};
 
-use crate::lib::{Chet7, Message};
+use crate::lib::{netcode, Chet7, Message};
 
 impl Sandbox for Chet7 {
     type Message = Message;
