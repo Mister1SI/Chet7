@@ -1,4 +1,3 @@
-
 pub mod lib {
     mod gui;
     mod netcode;
@@ -7,6 +6,7 @@ pub mod lib {
         address: String,
         username: String,
         message: String,
+        stream: Option<std::net::TcpStream>,
     }
 
     #[derive(Debug, Clone)]
@@ -15,6 +15,7 @@ pub mod lib {
         UsernameUpdate(String),
         MessageInputUpdate(String),
         Connect,
+        SendMessage(String),
     }
 
 }

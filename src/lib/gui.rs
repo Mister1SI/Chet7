@@ -3,6 +3,7 @@ use iced::widget::{Container, Column, Row, TextInput, Button, Rule, Text};
 
 use crate::lib::{netcode, Chet7, Message};
 
+
 impl Sandbox for Chet7 {
     type Message = Message;
 
@@ -11,6 +12,7 @@ impl Sandbox for Chet7 {
             address: String::from(""),
             username: String::from(""),
             message: String::from(""),
+            stream: None,
         }
     }
 
@@ -26,8 +28,24 @@ impl Sandbox for Chet7 {
         match message {
             Message::AddressUpdate(s) => self.address = s,
             Message::UsernameUpdate(u) => self.username = u,
-            Message::Connect => (),
+            Message::Connect => {
+                if let Ok(s) = netcode::connect(self.address.clone()) {
+                    self.stream = Some(s);
+                }
+                ()
+            }
             Message::MessageInputUpdate(m) => self.message = m,
+            Message::SendMessage(m) => {
+                if let Some(s) = &mut self.stream {
+                    match netcode::send_message(s, m) {
+                        Ok(_) => (),
+                        Err(e) => {
+                            println!("{e}");
+                        }
+                    }
+                }
+                
+            }
         }
     }
 
