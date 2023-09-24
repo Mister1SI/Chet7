@@ -1,7 +1,8 @@
 //#![windows_subsystem = "windows"]
+use chet7::lib::Chet7;
 
-
+use iced::{Settings, Application};
 
 fn main() {
-    println!("Hello, world!");
+    Chet7::run(Settings::default()).unwrap();
 }
