@@ -10,6 +10,7 @@ impl Sandbox for Chet7 {
         Chet7 { 
             address: String::from(""),
             username: String::from(""),
+            message: String::from(""),
         }
     }
 
@@ -26,6 +27,7 @@ impl Sandbox for Chet7 {
             Message::AddressUpdate(s) => self.address = s,
             Message::UsernameUpdate(u) => self.username = u,
             Message::Connect => (),
+            Message::MessageInputUpdate(m) => self.message = m,
         }
     }
 
@@ -47,9 +49,15 @@ impl Sandbox for Chet7 {
 
 
 
-        let msg_log = Text::new("Messages go here");
+        let msg_log = Text::new("Messages go here").height(Length::Fill);
 
-        let col = Column::new().align_items(Alignment::Center).push(top_row).push(conn_button).push(rule).push(msg_log);
+        let msg_input: TextInput<'_, Message> = TextInput::new("Send a message", self.message.as_str())
+                .on_input(Message::MessageInputUpdate);
+
+
+
+        let col = Column::new().align_items(Alignment::Center).push(top_row)
+                .push(conn_button).push(rule).push(msg_log).push(msg_input);
         Container::new(col).into()
     }
 
