@@ -1,5 +1,5 @@
-use iced::{Sandbox, Length, Alignment};
-use iced::widget::{Container, Column, Row, TextInput, Button};
+use iced::{Sandbox, Length, Alignment, Pixels};
+use iced::widget::{Container, Column, Row, TextInput, Button, Rule, Text};
 
 use crate::lib::{Chet7, Message};
 
@@ -41,7 +41,15 @@ impl Sandbox for Chet7 {
         
         let top_row = Row::new().push(addr_box).push(uname_box);
 
-        let col = Column::new().align_items(Alignment::Center).push(top_row).push(conn_button);
+
+
+        let rule = Rule::horizontal(Pixels::from(10)); 
+
+
+
+        let msg_log = Text::new("Messages go here");
+
+        let col = Column::new().align_items(Alignment::Center).push(top_row).push(conn_button).push(rule).push(msg_log);
         Container::new(col).into()
     }
 
