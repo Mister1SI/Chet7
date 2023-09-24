@@ -9,7 +9,6 @@ pub fn connect(address: String) -> Result<TcpStream, std::io::Error> {
 pub fn send_message(stream: &mut TcpStream, message: String) -> Result<(), std::io::Error> {
     match stream.write_all(message.as_bytes()) {
         Ok(_) => {
-            println!("{}", message);
             Ok(())
         }
         Err(e) => {

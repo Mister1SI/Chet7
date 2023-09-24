@@ -32,19 +32,20 @@ impl Sandbox for Chet7 {
                 if let Ok(s) = netcode::connect(self.address.clone()) {
                     self.stream = Some(s);
                 }
+                println!("Connecting");
                 ()
             }
             Message::MessageInputUpdate(m) => self.message = m,
-            Message::SendMessage(m) => {
+            Message::SendMessage => {
                 if let Some(s) = &mut self.stream {
-                    match netcode::send_message(s, m) {
+                    match netcode::send_message(s, String::from(self.message.clone())) {
                         Ok(_) => (),
                         Err(e) => {
                             println!("{e}");
                         }
                     }
                 }
-                
+                self.message = String::from("");
             }
         }
     }
@@ -70,12 +71,13 @@ impl Sandbox for Chet7 {
         let msg_log = Text::new("Messages go here").height(Length::Fill);
 
         let msg_input: TextInput<'_, Message> = TextInput::new("Send a message", self.message.as_str())
-                .on_input(Message::MessageInputUpdate);
+                .on_input(Message::MessageInputUpdate).on_submit(Message::SendMessage);
 
 
 
         let col = Column::new().align_items(Alignment::Center).push(top_row)
                 .push(conn_button).push(rule).push(msg_log).push(msg_input);
+            
         Container::new(col).into()
     }
 

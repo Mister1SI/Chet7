@@ -15,7 +15,9 @@ pub mod lib {
         UsernameUpdate(String),
         MessageInputUpdate(String),
         Connect,
-        SendMessage(String),
+        SendMessage,
     }
 
 }
+
+
